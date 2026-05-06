@@ -8,13 +8,14 @@
 
     <!-- This week -->
     <div class="section" v-if="currentWeekActivities.length">
-      <h2 class="section-title">本周义务维修</h2>
+      <h2 class="section-title">{{ formatDate(currentWeekDate) }} 本周义务维修</h2>
       <div class="card-list">
         <ActivityCard
           v-for="(item, idx) in currentWeekActivities"
           :key="item.date + item.shift"
           :activity="item"
           :shiftTitle="idx === 0 ? '第一班次' : '第二班次'"
+          :isHistory="false"
           @signup="openSignupDialog"
         />
       </div>
@@ -32,7 +33,7 @@
                 :key="item.shift"
                 :activity="item"
                 :shiftTitle="i === 0 ? '第一班次' : '第二班次'"
-                @signup="openSignupDialog"
+                :isHistory="true"
               />
             </div>
           </div>

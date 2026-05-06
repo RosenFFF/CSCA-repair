@@ -1,5 +1,5 @@
 <template>
-  <div class="activity-card" :class="{ full: activity.is_full }">
+  <div class="activity-card" :class="{ full: activity.is_full, history: isHistory }">
     <div class="card-header">
       <span class="shift-title">{{ shiftTitle }}</span>
       <span class="shift-label">{{ activity.shift }}</span>
@@ -8,7 +8,7 @@
       </span>
     </div>
     <el-button
-      v-if="!activity.is_full"
+      v-if="!isHistory && !activity.is_full"
       type="primary"
       size="large"
       round
@@ -16,8 +16,11 @@
     >
       报名
     </el-button>
-    <el-button v-else type="info" size="large" round disabled>
+    <el-button v-else-if="!isHistory && activity.is_full" type="info" size="large" round disabled>
       已满
+    </el-button>
+    <el-button v-else type="info" size="large" round disabled>
+      已结束
     </el-button>
   </div>
 </template>
@@ -26,6 +29,10 @@
 defineProps({
   activity: Object,
   shiftTitle: String,
+  isHistory: {
+    type: Boolean,
+    default: false,
+  },
 })
 defineEmits(['signup'])
 </script>
@@ -42,6 +49,10 @@ defineEmits(['signup'])
 }
 .activity-card.full {
   opacity: 0.6;
+}
+.activity-card.history {
+  opacity: 0.5;
+  background: #fafafa;
 }
 .card-header {
   display: flex;
