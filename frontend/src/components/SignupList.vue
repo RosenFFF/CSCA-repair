@@ -19,22 +19,15 @@
     <div class="list">
       <div v-if="signups.length === 0" class="empty">暂无数据</div>
       <div v-for="item in signups" :key="item.id" class="list-item">
-        <div class="item-left">
-          <div class="shift-tag" :class="item.shift === '13:30-15:30' ? 'tag-blue' : 'tag-teal'">
-            {{ item.shift === '13:30-15:30' ? '一' : '二' }}
-          </div>
-          <div class="item-info">
-            <div class="item-name">{{ item.name }}</div>
-            <div class="item-meta">{{ item.date }} · {{ item.shift }}</div>
-          </div>
+        <div class="item-info">
+          <div class="item-name">{{ item.name }}</div>
+          <div class="item-meta">{{ item.date }} · {{ item.shift }}</div>
         </div>
-        <el-button type="danger" text size="small" @click="handleDelete(item.id, item.name)" class="del-btn">
-          删除
-        </el-button>
+        <el-button type="danger" text size="small" @click="handleDelete(item.id, item.name)">删除</el-button>
       </div>
     </div>
 
-    <el-button type="primary" size="large" style="width: 100%; margin-top: 14px; border-radius: 10px;" @click="handleExport">
+    <el-button type="success" size="large" style="width: 100%; margin-top: 12px" @click="handleExport">
       导出 Excel
     </el-button>
   </div>
@@ -94,22 +87,20 @@ onMounted(loadSignups)
 
 <style scoped>
 .signup-list {
-  background: #fff;
-  border-radius: 14px;
+  background: white;
+  border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .filters {
   display: flex;
   gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .empty {
   text-align: center;
-  color: #ccc;
-  padding: 36px 0;
-  font-size: 14px;
+  color: #999;
+  padding: 32px;
 }
 .list-item {
   display: flex;
@@ -121,44 +112,14 @@ onMounted(loadSignups)
 .list-item:last-child {
   border-bottom: none;
 }
-.item-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.shift-tag {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-.tag-blue {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-}
-.tag-teal {
-  background: linear-gradient(135deg, #13c2c2, #667eea);
-}
 .item-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a1a2e;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
 }
 .item-meta {
-  font-size: 11px;
-  color: #bbb;
-  margin-top: 2px;
-}
-.del-btn {
-  color: #ccc !important;
   font-size: 12px;
-}
-.del-btn:hover {
-  color: #f56c6c !important;
+  color: #999;
+  margin-top: 2px;
 }
 </style>

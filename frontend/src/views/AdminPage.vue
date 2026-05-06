@@ -3,18 +3,16 @@
     <!-- Login -->
     <div v-if="!isLoggedIn" class="login-container">
       <div class="login-card">
-        <div class="login-header">
+        <div class="login-top">
           <router-link to="/" class="back-link">&larr; 返回</router-link>
-          <div class="login-icon">&#9881;</div>
-          <h2>管理员登录</h2>
-          <p class="login-sub">请输入管理员密码</p>
+          <h2>管理后台</h2>
         </div>
         <el-form @submit.prevent="handleLogin">
           <el-form-item>
             <el-input
               v-model="password"
               type="password"
-              placeholder="密码"
+              placeholder="请输入管理员密码"
               show-password
               size="large"
             />
@@ -33,10 +31,10 @@
           <router-link to="/" class="back-link">&larr; 返回</router-link>
           <h2>管理后台</h2>
         </div>
-        <el-button text @click="logout" class="logout-btn">退出登录</el-button>
+        <el-button text @click="logout">退出</el-button>
       </div>
 
-      <el-tabs v-model="activeTab" class="dash-tabs">
+      <el-tabs v-model="activeTab">
         <el-tab-pane label="数据总览" name="stats">
           <StatsCards :stats="stats" />
           <TrendChart :trend="stats.weekly_trend" />
@@ -112,44 +110,30 @@ onMounted(() => {
 .admin-page {
   max-width: 480px;
   margin: 0 auto;
-  padding: 0 16px 24px;
+  padding: 20px 16px;
   min-height: 100vh;
-  background: #f0f2f5;
 }
 .login-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 90vh;
+  min-height: 80vh;
 }
 .login-card {
-  background: #fff;
-  border-radius: 18px;
-  padding: 36px 24px 28px;
+  background: white;
+  border-radius: 16px;
+  padding: 32px 24px;
   width: 100%;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-.login-header {
+.login-top {
   text-align: center;
   margin-bottom: 24px;
   position: relative;
 }
-.login-icon {
-  font-size: 28px;
-  color: #667eea;
-  margin-bottom: 8px;
-}
-.login-header h2 {
+.login-top h2 {
+  margin-bottom: 0;
   font-size: 20px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin: 0;
-}
-.login-sub {
-  font-size: 13px;
-  color: #999;
-  margin-top: 4px;
 }
 .back-link {
   font-size: 13px;
@@ -157,16 +141,17 @@ onMounted(() => {
   text-decoration: none;
   position: absolute;
   left: 0;
-  top: 4px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .back-link:hover {
-  color: #667eea;
+  color: #1890ff;
 }
 .dash-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0 12px;
+  margin-bottom: 16px;
 }
 .dash-header-left {
   display: flex;
@@ -175,24 +160,9 @@ onMounted(() => {
 }
 .dash-header .back-link {
   position: static;
+  transform: none;
 }
 .dash-header h2 {
   font-size: 20px;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin: 0;
-}
-.logout-btn {
-  color: #999 !important;
-  font-size: 13px;
-}
-.logout-btn:hover {
-  color: #667eea !important;
-}
-.dash-tabs :deep(.el-tabs__item.is-active) {
-  color: #667eea;
-}
-.dash-tabs :deep(.el-tabs__active-bar) {
-  background: linear-gradient(90deg, #667eea, #764ba2);
 }
 </style>

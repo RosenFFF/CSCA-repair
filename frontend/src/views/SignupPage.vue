@@ -1,18 +1,14 @@
 <template>
   <div class="signup-page">
     <div class="page-header">
-      <div class="header-glow"></div>
-      <div class="logo">&#9881;</div>
+      <div class="logo">&#128295;</div>
       <h1>义务维修报名</h1>
       <p class="subtitle">计算机协会 · 每周三下午</p>
     </div>
 
     <!-- This week -->
     <div class="section" v-if="currentWeekActivities.length">
-      <h2 class="section-title">
-        <span class="title-dot"></span>
-        本周义务维修
-      </h2>
+      <h2 class="section-title">本周义务维修</h2>
       <div class="card-list">
         <ActivityCard
           v-for="(item, idx) in currentWeekActivities"
@@ -27,7 +23,7 @@
     <!-- History -->
     <div class="section" v-if="historyActivities.length">
       <el-collapse v-model="expandedHistory">
-        <el-collapse-item title="历史记录" name="history">
+        <el-collapse-item title="历史活动" name="history">
           <div v-for="(week, idx) in historyGrouped" :key="idx" class="history-week">
             <div class="history-date">{{ formatDate(week.date) }}</div>
             <div class="card-list">
@@ -46,8 +42,7 @@
 
     <!-- Warning -->
     <div class="warning-bar">
-      <span class="warning-icon">!</span>
-      <span>如果填错或误填，请及时联系部长删除</span>
+      如果填错或误填，请及时联系部长删除
     </div>
 
     <!-- Admin Entry -->
@@ -56,7 +51,7 @@
     </div>
 
     <!-- Signup Dialog -->
-    <el-dialog v-model="dialogVisible" title="报名确认" width="90%" :show-close="false" class="signup-dialog">
+    <el-dialog v-model="dialogVisible" title="报名" width="90%" :show-close="false">
       <el-form @submit.prevent="submitSignup">
         <el-form-item label="姓名">
           <el-input v-model="signupName" placeholder="请输入你的姓名" maxlength="20" clearable />
@@ -151,58 +146,32 @@ onMounted(loadActivities)
 .signup-page {
   max-width: 480px;
   margin: 0 auto;
-  padding: 0 16px 24px;
+  padding: 20px 16px;
   min-height: 100vh;
-  background: #f0f2f5;
 }
 .page-header {
   text-align: center;
-  padding: 36px 0 28px;
-  position: relative;
-  overflow: hidden;
-}
-.header-glow {
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(102,126,234,0.12) 0%, transparent 70%);
-  pointer-events: none;
+  margin-bottom: 24px;
 }
 .logo {
-  font-size: 32px;
-  margin-bottom: 6px;
-  color: #667eea;
+  font-size: 36px;
+  margin-bottom: 8px;
 }
 h1 {
   font-size: 22px;
-  font-weight: 700;
-  color: #1a1a2e;
-  letter-spacing: 1px;
+  font-weight: 600;
+  color: #1a1a1a;
 }
 .subtitle {
   font-size: 13px;
-  color: #8c8c8c;
+  color: #666;
   margin-top: 4px;
-  letter-spacing: 0.5px;
 }
 .section-title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: #333;
   margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.title-dot {
-  width: 4px;
-  height: 16px;
-  background: linear-gradient(180deg, #667eea, #764ba2);
-  border-radius: 2px;
-  display: inline-block;
 }
 .card-list {
   display: flex;
@@ -214,35 +183,19 @@ h1 {
   margin-bottom: 12px;
 }
 .history-date {
-  font-size: 12px;
-  color: #aaa;
+  font-size: 13px;
+  color: #999;
   margin-bottom: 8px;
-  padding-left: 2px;
 }
 .warning-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #fffbe6, #fff7e6);
+  background: #fffbe6;
   border: 1px solid #ffe58f;
-  border-radius: 10px;
-  padding: 12px 14px;
+  border-radius: 8px;
+  padding: 10px 14px;
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 13px;
   color: #d48806;
-}
-.warning-icon {
-  width: 20px;
-  height: 20px;
-  background: #faad14;
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  flex-shrink: 0;
+  text-align: center;
 }
 .admin-entry {
   text-align: center;
@@ -250,12 +203,11 @@ h1 {
   padding: 12px 0;
 }
 .admin-entry a {
-  font-size: 12px;
-  color: #bbb;
+  font-size: 13px;
+  color: #999;
   text-decoration: none;
-  letter-spacing: 0.5px;
 }
 .admin-entry a:hover {
-  color: #667eea;
+  color: #1890ff;
 }
 </style>
