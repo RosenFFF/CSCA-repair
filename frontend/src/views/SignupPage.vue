@@ -1,19 +1,24 @@
 <template>
   <div class="signup-page">
     <div class="page-header">
-      <div class="logo">🔧</div>
+      <div class="header-glow"></div>
+      <div class="logo">&#9881;</div>
       <h1>义务维修报名</h1>
       <p class="subtitle">计算机协会 · 每周三下午</p>
     </div>
 
     <!-- This week -->
     <div class="section" v-if="currentWeekActivities.length">
-      <h2 class="section-title">本周活动</h2>
+      <h2 class="section-title">
+        <span class="title-dot"></span>
+        本周义务维修
+      </h2>
       <div class="card-list">
         <ActivityCard
-          v-for="item in currentWeekActivities"
+          v-for="(item, idx) in currentWeekActivities"
           :key="item.date + item.shift"
           :activity="item"
+          :shiftTitle="idx === 0 ? '第一班次' : '第二班次'"
           @signup="openSignupDialog"
         />
       </div>
@@ -22,14 +27,15 @@
     <!-- History -->
     <div class="section" v-if="historyActivities.length">
       <el-collapse v-model="expandedHistory">
-        <el-collapse-item title="历史活动" name="history">
+        <el-collapse-item title="历史记录" name="history">
           <div v-for="(week, idx) in historyGrouped" :key="idx" class="history-week">
             <div class="history-date">{{ formatDate(week.date) }}</div>
             <div class="card-list">
               <ActivityCard
-                v-for="item in week.items"
+                v-for="(item, i) in week.items"
                 :key="item.shift"
                 :activity="item"
+                :shiftTitle="i === 0 ? '第一班次' : '第二班次'"
                 @signup="openSignupDialog"
               />
             </div>
@@ -38,13 +44,19 @@
       </el-collapse>
     </div>
 
+    <!-- Warning -->
+    <div class="warning-bar">
+      <span class="warning-icon">!</span>
+      <span>如果填错或误填，请及时联系部长删除</span>
+    </div>
+
     <!-- Admin Entry -->
     <div class="admin-entry">
       <router-link to="/admin">管理员入口</router-link>
     </div>
 
     <!-- Signup Dialog -->
-    <el-dialog v-model="dialogVisible" title="报名" width="90%" :show-close="false">
+    <el-dialog v-model="dialogVisible" title="报名确认" width="90%" :show-close="false" class="signup-dialog">
       <el-form @submit.prevent="submitSignup">
         <el-form-item label="姓名">
           <el-input v-model="signupName" placeholder="请输入你的姓名" maxlength="20" clearable />
@@ -139,32 +151,58 @@ onMounted(loadActivities)
 .signup-page {
   max-width: 480px;
   margin: 0 auto;
-  padding: 20px 16px;
+  padding: 0 16px 24px;
   min-height: 100vh;
+  background: #f0f2f5;
 }
 .page-header {
   text-align: center;
-  margin-bottom: 24px;
+  padding: 36px 0 28px;
+  position: relative;
+  overflow: hidden;
+}
+.header-glow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(102,126,234,0.12) 0%, transparent 70%);
+  pointer-events: none;
 }
 .logo {
-  font-size: 36px;
-  margin-bottom: 8px;
+  font-size: 32px;
+  margin-bottom: 6px;
+  color: #667eea;
 }
 h1 {
   font-size: 22px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 1px;
 }
 .subtitle {
   font-size: 13px;
-  color: #666;
+  color: #8c8c8c;
   margin-top: 4px;
+  letter-spacing: 0.5px;
 }
 .section-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  color: #333;
+  color: #1a1a2e;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.title-dot {
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(180deg, #667eea, #764ba2);
+  border-radius: 2px;
+  display: inline-block;
 }
 .card-list {
   display: flex;
@@ -176,21 +214,48 @@ h1 {
   margin-bottom: 12px;
 }
 .history-date {
-  font-size: 13px;
-  color: #999;
+  font-size: 12px;
+  color: #aaa;
   margin-bottom: 8px;
+  padding-left: 2px;
+}
+.warning-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fffbe6, #fff7e6);
+  border: 1px solid #ffe58f;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #d48806;
+}
+.warning-icon {
+  width: 20px;
+  height: 20px;
+  background: #faad14;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 .admin-entry {
   text-align: center;
-  margin-top: 32px;
-  padding: 16px 0;
+  margin-top: 20px;
+  padding: 12px 0;
 }
 .admin-entry a {
-  font-size: 13px;
-  color: #999;
+  font-size: 12px;
+  color: #bbb;
   text-decoration: none;
+  letter-spacing: 0.5px;
 }
 .admin-entry a:hover {
-  color: #1890ff;
+  color: #667eea;
 }
 </style>

@@ -7,7 +7,9 @@
         :key="item.name"
         class="lb-item"
       >
-        <div class="lb-rank" :class="{ top3: index < 3 }">{{ index + 1 }}</div>
+        <div class="lb-rank" :class="{ top1: index === 0, top2: index === 1, top3: index === 2 }">
+          {{ index + 1 }}
+        </div>
         <div class="lb-name">{{ item.name }}</div>
         <div class="lb-count">{{ item.count }} 次</div>
       </div>
@@ -21,15 +23,17 @@ defineProps({ data: Array })
 
 <style scoped>
 .leaderboard {
-  background: white;
-  border-radius: 12px;
+  background: #fff;
+  border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  border: 1px solid #f0f0f0;
 }
 .empty {
   text-align: center;
-  color: #999;
-  padding: 32px;
+  color: #ccc;
+  padding: 36px 0;
+  font-size: 14px;
 }
 .lb-item {
   display: flex;
@@ -41,30 +45,40 @@ defineProps({ data: Array })
   border-bottom: none;
 }
 .lb-rank {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #f0f0f0;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: #f0f2f5;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 13px;
-  font-weight: 600;
-  color: #666;
+  font-weight: 700;
+  color: #999;
   margin-right: 12px;
+  flex-shrink: 0;
+}
+.lb-rank.top1 {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+.lb-rank.top2 {
+  background: linear-gradient(135deg, #667eea, #13c2c2);
+  color: #fff;
 }
 .lb-rank.top3 {
-  background: #fff7e6;
-  color: #fa8c16;
+  background: linear-gradient(135deg, #fa8c16, #fadb14);
+  color: #fff;
 }
 .lb-name {
   flex: 1;
-  font-size: 15px;
-  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e;
 }
 .lb-count {
-  font-size: 14px;
-  color: #1890ff;
-  font-weight: 500;
+  font-size: 13px;
+  color: #667eea;
+  font-weight: 600;
 }
 </style>
