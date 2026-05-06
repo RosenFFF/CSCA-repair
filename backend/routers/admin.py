@@ -48,8 +48,14 @@ def delete_signup(signup_id: int):
 def get_stats():
     db = get_db()
     today = datetime.now().date()
-    days_since_wed = (today.weekday() - 2) % 7
-    this_wednesday = (today - timedelta(days=days_since_wed)).isoformat()
+    # Find the next upcoming Wednesday (or today if Wednesday and before 18:00)
+    days_until_wed = (2 - today.weekday()) % 7
+    if days_until_wed == 0 and datetime.now().hour < 18:
+        this_wednesday = today.isoformat()
+    elif days_until_wed == 0:
+        this_wednesday = (today + timedelta(days=7)).isoformat()
+    else:
+        this_wednesday = (today + timedelta(days=days_until_wed)).isoformat()
 
     # This week count
     week_row = db.execute(
@@ -73,8 +79,9 @@ def get_stats():
 
     # Weekly trend (last 8 weeks)
     trend = []
+    target_date = datetime.fromisoformat(this_wednesday).date()
     for i in range(7, -1, -1):
-        wed = (today - timedelta(days=days_since_wed, weeks=i)).isoformat()
+        wed = (target_date - timedelta(weeks=i)).isoformat()
         r1 = db.execute(
             "SELECT COUNT(*) as cnt FROM signups WHERE date=? AND shift='13:30-15:30'", (wed,)
         ).fetchone()

@@ -7,12 +7,19 @@ router = APIRouter()
 MAX_SIGNUP = 5
 
 def get_wednesday_dates(weeks: int = 4) -> list[str]:
-    """Return the last `weeks` Wednesday dates (including today if Wednesday)."""
+    """Return Wednesday dates: the next upcoming one + previous weeks."""
     today = datetime.now().date()
-    # Find this week's Wednesday (weekday 2 = Wednesday)
-    days_since_wed = (today.weekday() - 2) % 7
-    this_wednesday = today - timedelta(days=days_since_wed)
-    return [(this_wednesday - timedelta(weeks=i)).isoformat() for i in range(weeks)]
+    # Days until next Wednesday (0 = today is Wednesday)
+    days_until_wed = (2 - today.weekday()) % 7
+    # If it's Wednesday and before 18:00, use today; otherwise use next Wednesday
+    if days_until_wed == 0 and datetime.now().hour < 18:
+        next_wednesday = today
+    elif days_until_wed == 0:
+        next_wednesday = today + timedelta(days=7)
+    else:
+        next_wednesday = today + timedelta(days=days_until_wed)
+    # Return: next_wednesday, then (weeks-1) previous Wednesdays
+    return [(next_wednesday - timedelta(weeks=i)).isoformat() for i in range(weeks)]
 
 @router.get("/activities")
 def list_activities():
