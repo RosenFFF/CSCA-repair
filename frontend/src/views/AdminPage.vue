@@ -3,7 +3,10 @@
     <!-- Login -->
     <div v-if="!isLoggedIn" class="login-container">
       <div class="login-card">
-        <h2>管理后台</h2>
+        <div class="login-top">
+          <router-link to="/" class="back-link">← 返回</router-link>
+          <h2>管理后台</h2>
+        </div>
         <el-form @submit.prevent="handleLogin">
           <el-form-item>
             <el-input
@@ -24,7 +27,10 @@
     <!-- Dashboard -->
     <div v-else class="dashboard">
       <div class="dash-header">
-        <h2>管理后台</h2>
+        <div class="dash-header-left">
+          <router-link to="/" class="back-link">← 返回</router-link>
+          <h2>管理后台</h2>
+        </div>
         <el-button text @click="logout">退出</el-button>
       </div>
 
@@ -132,7 +138,36 @@ onMounted(() => {
   align-items: center;
   margin-bottom: 16px;
 }
+.dash-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 .dash-header h2 {
   font-size: 20px;
+}
+.login-top {
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+.login-top h2 {
+  margin-bottom: 0;
+}
+.back-link {
+  font-size: 13px;
+  color: #999;
+  text-decoration: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.back-link:hover {
+  color: #1890ff;
+}
+.dash-header .back-link {
+  position: static;
+  transform: none;
 }
 </style>

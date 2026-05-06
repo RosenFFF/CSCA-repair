@@ -38,6 +38,11 @@
       </el-collapse>
     </div>
 
+    <!-- Admin Entry -->
+    <div class="admin-entry">
+      <router-link to="/admin">管理员入口</router-link>
+    </div>
+
     <!-- Signup Dialog -->
     <el-dialog v-model="dialogVisible" title="报名" width="90%" :show-close="false">
       <el-form @submit.prevent="submitSignup">
@@ -174,5 +179,18 @@ h1 {
   font-size: 13px;
   color: #999;
   margin-bottom: 8px;
+}
+.admin-entry {
+  text-align: center;
+  margin-top: 32px;
+  padding: 16px 0;
+}
+.admin-entry a {
+  font-size: 13px;
+  color: #999;
+  text-decoration: none;
+}
+.admin-entry a:hover {
+  color: #1890ff;
 }
 </style>
