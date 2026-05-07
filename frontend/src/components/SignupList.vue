@@ -28,8 +28,18 @@
     </div>
 
     <el-button type="success" size="large" style="width: 100%; margin-top: 12px" @click="handleExport">
-      导出 Excel
-    </el-button>
+  导出 Excel
+</el-button>
+<div class="export-text-buttons">
+  <el-button size="large" style="flex: 1" @click="downloadText">
+    下载文本
+  </el-button>
+  <el-button size="large" style="flex: 1" @click="copyText">
+    复制文本
+  </el-button>
+</div>
+</div>
+    
   </div>
 </template>
 
