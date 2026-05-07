@@ -41,5 +41,5 @@ cd ../backend && python -m uvicorn main:app --port 8000
 
 | 环境变量 | 说明 | 默认值 |
 |----------|------|--------|
-| ADMIN_PASSWORD | 管理员密码 | admin123 |
+| ADMIN_PASSWORD | 管理员密码 | xxx |
 | JWT_SECRET | JWT 签名密钥 | 内置默认值 |
