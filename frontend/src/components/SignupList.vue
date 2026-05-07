@@ -92,6 +92,56 @@ async function handleExport() {
   }
 }
 
+
+  function generateText() {
+  const shiftMap = {
+    '13:30-15:30': '第一班',
+    '15:30-17:30': '第二班',
+  }
+  const grouped = {}
+  for (const item of signups.value) {
+    const shiftName = shiftMap[item.shift] || item.shift
+    if (!grouped[shiftName]) {
+      grouped[shiftName] = []
+    }
+    grouped[shiftName].push(item.name)
+  }
+  const lines = []
+  for (const [shift, names] of Object.entries(grouped)) {
+    lines.push(`${shift}：${names.join(',')}`)
+  }
+  return lines.join('\n')
+}
+
+function downloadText() {
+  if (signups.value.length === 0) {
+    ElMessage.warning('暂无数据可导出')
+    return
+  }
+  const text = generateText()
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `repair_signups_${new Date().toISOString().slice(0, 10)}.txt`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+async function copyText() {
+  if (signups.value.length === 0) {
+    ElMessage.warning('暂无数据可复制')
+    return
+  }
+  const text = generateText()
+  try {
+    await navigator.clipboard.writeText(text)
+    ElMessage.success('已复制到剪贴板')
+  } catch {
+    ElMessage.error('复制失败，请手动复制')
+  }
+}
+
 onMounted(loadSignups)
 </script>
 
@@ -131,5 +181,10 @@ onMounted(loadSignups)
   font-size: 12px;
   color: #999;
   margin-top: 2px;
+}
+.export-text-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
 }
 </style>
